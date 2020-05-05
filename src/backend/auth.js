@@ -1,4 +1,4 @@
-import { firebase } from './core';
+import {firebase} from './core';
 
 const github = new firebase.auth.GithubAuthProvider();
 github.addScope('user:email');
@@ -12,7 +12,8 @@ export function loginWithGithub() {
 }
 
 export function getFirebaseUser() {
-    return new Promise(resolve => firebase.auth().onAuthStateChanged(user => resolve(user)));
+    return new Promise(resolve => firebase.auth().onAuthStateChanged(
+        user => resolve(user)));
 }
 
 export function getFirebaseToken() {

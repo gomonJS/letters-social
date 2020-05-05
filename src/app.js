@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import parseLinkHeader from 'parse-link-header';
 import orderBy from 'lodash/orderBy';
@@ -19,6 +19,10 @@ import Welcome from './components/welcome/Welcome';
  * @module letters/components
  */
 class App extends Component {
+    static propTypes = {
+        children: PropTypes.node,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -30,12 +34,11 @@ class App extends Component {
         };
         this.getPosts = this.getPosts.bind(this);
     }
-    static propTypes = {
-        children: PropTypes.node,
-    };
+
     componentDidMount() {
         this.getPosts();
     }
+
     componentDidCatch(err, info) {
         console.error(err);
         console.error(info);
@@ -43,6 +46,7 @@ class App extends Component {
             error: err,
         }));
     }
+
     getPosts() {
         API.fetchPosts(this.state.endpoint)
             .then(res => {
@@ -55,32 +59,33 @@ class App extends Component {
                 });
             })
             .catch(err => {
-                this.setState(() => ({ error: err }));
+                this.setState(() => ({error: err}));
             });
     }
+
     render() {
         if (this.state.error) {
             return (
                 <div className="app">
-                    <ErrorMessage error={this.state.error} />
+                    <ErrorMessage error={this.state.error}/>
                 </div>
             );
         }
         return (
             <div className="app">
-                <Nav user={this.props.user} />
+                <Nav user={this.props.user}/>
                 {this.state.loading ? (
                     <div className="loading">
-                        <Loader />
+                        <Loader/>
                     </div>
                 ) : (
                     <div className="home">
-                        <Welcome key="welcome" />
+                        <Welcome key="welcome"/>
                         <div>
                             {this.state.posts.length && (
                                 <div className="posts">
-                                    {this.state.posts.map(({ id }) => {
-                                        return <Post id={id} key={id} user={this.props.user} />;
+                                    {this.state.posts.map(({id}) => {
+                                        return <Post id={id} key={id} user={this.props.user}/>;
                                     })}
                                 </div>
                             )}
